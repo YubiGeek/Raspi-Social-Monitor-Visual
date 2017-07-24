@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Statistiques</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.min.css">
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        h2 {
+            font: normal 60px 'Roboto', sans-serif;
+            text-align: center;
+        }
+
+        .centered {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transform: -webkit-translate(-50%, -50%);
+            transform: -moz-translate(-50%, -50%);
+            transform: -ms-translate(-50%, -50%);
+        }
+
+        .counter {
+            zoom: 0.5;
+            -moz-transform: scale(0.5);
+            display: inline-block;
+            width: auto;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="centered">
+    <div class="container">
+        <div class="row">
+            <div id="facebook" class="col-md-4 text-center">
+                <div class="jumbotron">
+                    <h2><i class="fa fa-facebook fa-fw"></i> Facebook</h2>
+                    <span class="counter facebook">0</span>
+                </div>
+            </div>
+            <div id="instagram" class="col-md-4 text-center">
+                <div class="jumbotron">
+                    <h2><i class="fa fa-instagram fa-fw"></i> Instagram</h2>
+                    <span class="counter instagram">0</span>
+                </div>
+            </div>
+            <div id="twitter" class="col-md-4 text-center">
+                <div class="jumbotron">
+                    <h2><i class="fa fa-twitter fa-fw"></i> Twitter</h2>
+                    <span class="counter twitter">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<audio id="bruitage" class="hide" controls>
+    <source src="bruitage.mp3" type="audio/mp3">
+</audio>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        var counterFacebook = $('.counter.facebook').FlipClock(0, {
+            clockFace: 'Counter',
+            minimumDigits: 3
+        });
+
+        var counterInstagram = $('.counter.instagram').FlipClock(0, {
+            clockFace: 'Counter',
+            minimumDigits: 3
+        });
+
+        var counterTwitter = $('.counter.twitter').FlipClock(0, {
+            clockFace: 'Counter',
+            minimumDigits: 3
+        });
+
+        var socket = io();
+
+        socket.on('refresh counter facebook', function (counter) {
+            counterFacebook.setTime(counter);
+        });
+
+        socket.on('refresh counter instagram', function (counter) {
+            counterInstagram.setTime(counter);
+        });
+
+        socket.on('refresh counter twitter', function (counter) {
+            counterTwitter.setTime(counter);
+        });
+
+    });
+</script>
+
+</body>
+</html>
